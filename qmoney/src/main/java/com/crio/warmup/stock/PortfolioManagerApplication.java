@@ -90,7 +90,7 @@ return tests;
 
   public static List<String> mainReadQuotes (String[] args) throws IOException, URISyntaxException{
     ObjectMapper objectMapper = getObjectMapper();
-    List<PortfolioTrade> trades = Arrays.asList(objectMapper.readValue(resolveFileFromResources (args[0]), PortfolioTrade[].class))
+    List<PortfolioTrade> trades = Arrays.asList(objectMapper.readValue(resolveFileFromResources (args[0]), PortfolioTrade[].class));
     List<TotalReturnsDto> sortedByValue = mainReadQuotesHelper(args, trades);
     Collections.sort(sortedByValue, TotalReturnsDto.closingComparator);
     List<String> stocks = new ArrayList<String>();

@@ -106,7 +106,7 @@ public static final Comparator<TotalReturnsDto> closingComparator = new
   public int compare(TotalReturnsDto t1 , TotalReturnsDto t2){
       return (int) (t1.getClosingPrice().compareTo(t2.getClosingPrice()));
       }
-    }
+    };
 
     
 

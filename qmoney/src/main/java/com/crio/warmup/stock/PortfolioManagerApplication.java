@@ -45,6 +45,32 @@ public class PortfolioManagerApplication {
   //  1. There can be few unused imports, you will need to fix them to make the build pass.
   //  2. You can use "./gradlew build" to check if your code builds successfully.
 
+  public static List<TotalReturnsDto> mainReadQuotesHelper(String[] args, 
+    List<PortfolioTrade> trades) throws IOException, URISyntaxException {
+
+  RestTemplate restTemplate = new RestTemplate();
+  List<TotalReturnsDto> tests = new ArrayList<TotalTotalReturnsDto>();
+   for (PortfolioTrade t : trades) {
+    String uri = "https://api.tiingo.com/tiingo/daily/" + t.getSymbol() + "/prices?startDate=" 
+        + t.getPurchaseDate().toString() + "&endDate=" + args[1]
+        + "&token=9643ca045000d02c609e3be2180e06f6e5c46c9e";
+
+    TiingoCandle[] results = restTemplate.getForObject(uri, TiingoCandle[].class);
+     if (results != null) {
+
+    tests.add(new TotalReturnsDto (t.getSymbol(), results [results.length-1].getClose()));
+
+}
+
+}
+
+return tests;
+}
+
+
+
+
+
   public static List<String> mainReadFile(String[] args) throws IOException, URISyntaxException {
 
     File file = resolveFileFromResources(args[0]);
@@ -62,7 +88,27 @@ public class PortfolioManagerApplication {
   // 1. You may need to copy relevant code from #mainReadQuotes to parse the Json.
   // 2. Remember to get the latest quotes from Tiingo API.
 
+  public static List<String> mainReadQuotes (String[] args) throws IOException, URISyntaxException{
+    ObjectMapper objectMapper = getObjectMapper();
+    List<PortfolioTrade> trades = Arrays.asList(objectMapper.readValue(resolveFileFromResources (args[0]), PortfolioTrade[].class))
+    List<TotalReturnsDto> sortedByValue = mainReadQuotesHelper(args, trades);
+    Collections.sort(sortedByValue, TotalReturnsDto.closingComparator);
+    List<String> stocks = new ArrayList<String>();
+    for (TotalReturnsDto trd: sortedByValue) {
+       stocks.add(trd.getSymbol());
+}
+    return stocks;
 
+}
+
+public static final Comparator<TotalReturnsDto> closingComparator = new
+    Comparator<TotalReturnsDto>() {
+  public int compare(TotalReturnsDto t1 , TotalReturnsDto t2){
+      return (int) (t1.getClosingPrice().compareTo(t2.getClosingPrice()));
+      }
+    }
+
+    
 
 
 

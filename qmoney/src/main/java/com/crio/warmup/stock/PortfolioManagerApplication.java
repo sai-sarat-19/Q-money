@@ -120,6 +120,21 @@ return tests;
 
   }
 
+  public static List<String> debugOutputs() {
+
+    String valueOfArgument0 = "trades.json";
+    String resultOfResolveFilePathArgs0 = "/home/crio-user/workspace/m-saisarat17-ME_QMONEY_V2/qmoney/src/test/resources/assessments/trades.json";
+    String toStringOfObjectMapper = "com.fasterxml.jackson.databind.ObjectMapper@5a9d6f02";
+    String functionNameFromTestFileInStackTrace = "PortfolioManagerApplicationTest.mainReadFile()";
+    String lineNumberFromTestFileInStackTrace = "24:1";
+
+
+   return Arrays.asList(new String[]{valueOfArgument0, resultOfResolveFilePathArgs0,
+       toStringOfObjectMapper, functionNameFromTestFileInStackTrace,
+       lineNumberFromTestFileInStackTrace});
+ }
+
+
   // TODO:
   //  After refactor, make sure that the tests pass by using these two commands
   //  ./gradlew test --tests PortfolioManagerApplicationTest.readTradesFromJson

@@ -111,7 +111,7 @@ return tests;
     ObjectMapper objectMapper = getObjectMapper();
     List<PortfolioTrade> trades = Arrays.asList(objectMapper.readValue(resolveFileFromResources(args[0]), PortfolioTrade[].class));
     List<TotalReturnsDto> sortedByValue = mainReadQuotesHelper(args, trades);
-    //Collections.sort(sortedByValue, TotalReturnsDto.closingComparator);
+    Collections.sort(sortedByValue, TotalReturnsDto.closingComparator);
     List<String> stocks = new ArrayList<String>();
     for (TotalReturnsDto trd: sortedByValue) {
        stocks.add(trd.getSymbol());

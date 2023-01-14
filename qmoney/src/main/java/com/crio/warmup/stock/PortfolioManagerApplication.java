@@ -1,7 +1,7 @@
 
 package com.crio.warmup.stock;
 
-
+import java.util.ArrayList;
 import com.crio.warmup.stock.dto.*;
 import com.crio.warmup.stock.log.UncaughtExceptionHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,7 +51,7 @@ public class PortfolioManagerApplication {
     List<PortfolioTrade> trades) throws IOException, URISyntaxException {
 
   RestTemplate restTemplate = new RestTemplate();
-  List<TotalReturnsDto> tests = new ArrayList<TotalTotalReturnsDto>();
+  List<TotalReturnsDto> tests = new ArrayList<TotalReturnsDto>();
    for (PortfolioTrade t : trades) {
     String uri = "https://api.tiingo.com/tiingo/daily/" + t.getSymbol() + "/prices?startDate=" 
         + t.getPurchaseDate().toString() + "&endDate=" + args[1]
@@ -73,7 +73,7 @@ return tests;
 
   public static List<String> mainReadQuotes(String[] args) throws IOException, URISyntaxException {
     ObjectMapper objectMapper = getObjectMapper();
-    List<PortfolioTrade> trades = Arrays.asList(objectMapper.readValue(resolveFileFromResources (args[0]), PortfolioTrade[].class));
+    List<PortfolioTrade> trades = Arrays.asList(objectMapper.readValue(resolveFileFromResources(args[0]), PortfolioTrade[].class));
     List<TotalReturnsDto> sortedByValue = mainReadQuotesHelper(args, trades);
     Collections.sort(sortedByValue, TotalReturnsDto.closingComparator);
     List<String> stocks = new ArrayList<String>();
@@ -118,7 +118,7 @@ public int compare(TotalReturnsDto t1 , TotalReturnsDto t2){
     ThreadContext.put("runId", UUID.randomUUID().toString());
 
 
-    printJsonObject(mainReadQuotes(args));
+    print JsonObject(mainReadQuotes(args));
 
 
   }

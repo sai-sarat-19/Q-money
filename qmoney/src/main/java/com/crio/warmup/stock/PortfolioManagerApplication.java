@@ -118,7 +118,7 @@ public int compare(TotalReturnsDto t1 , TotalReturnsDto t2){
     ThreadContext.put("runId", UUID.randomUUID().toString());
 
 
-    print JsonObject(mainReadQuotes(args));
+    printJsonObject(mainReadQuotes(args));
 
 
   }

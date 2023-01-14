@@ -150,8 +150,8 @@ return tests;
    public static String prepareUrl(PortfolioTrade trade, LocalDate endDate, String token) {
      //return Collections.emptyList();
      String url = "https://api.tiingo.com/tiingo/daily/" + trade.getSymbol() + "/prices?startDate=" 
-        + trade.getPurchaseDate().toString() + "&endDate=" + endDate.toString()
-        + "&token=token";
+     + trade.getPurchaseDate().toString() + "&endDate=" + endDate.toString()
+     + "&token=" +token;
     return url;
   }
 

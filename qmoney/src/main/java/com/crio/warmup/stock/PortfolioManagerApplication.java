@@ -1,6 +1,7 @@
 
 package com.crio.warmup.stock;
 
+import java.util.*;
 import java.util.ArrayList;
 import com.crio.warmup.stock.dto.*;
 import com.crio.warmup.stock.log.UncaughtExceptionHandler;
@@ -47,6 +48,41 @@ public class PortfolioManagerApplication {
   //    and deserialize the results in List<Candle>
 
 
+  
+
+  private static void printJsonObject(Object object) throws IOException {
+    Logger logger = Logger.getLogger(PortfolioManagerApplication.class.getCanonicalName());
+    ObjectMapper mapper = new ObjectMapper();
+    logger.info(mapper.writeValueAsString(object));
+  }
+
+  private static ObjectMapper getObjectMapper() {
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.registerModule(new JavaTimeModule());
+    return objectMapper;
+  }
+
+  private static File resolveFileFromResources(String filename) throws URISyntaxException {
+    return Paths.get(
+        Thread.currentThread().getContextClassLoader().getResource(filename).toURI()).toFile();
+  }
+
+  
+
+  public static List<String> mainReadFile(String[] args) throws IOException, URISyntaxException {
+
+    File file = resolveFileFromResources(args[0]);
+    ObjectMapper objectMapper= getObjectMapper();
+    PortfolioTrade[] trades= objectMapper.readValue(file,PortfolioTrade[].class);
+    List<String> symbols=new ArrayList<String>();
+    for(PortfolioTrade t:trades){
+      symbols.add(t.getSymbol());
+    }
+     return symbols;
+  }
+
+
+
   public static List<TotalReturnsDto> mainReadQuotesHelper(String[] args, 
     List<PortfolioTrade> trades) throws IOException, URISyntaxException {
 
@@ -75,7 +111,7 @@ return tests;
     ObjectMapper objectMapper = getObjectMapper();
     List<PortfolioTrade> trades = Arrays.asList(objectMapper.readValue(resolveFileFromResources(args[0]), PortfolioTrade[].class));
     List<TotalReturnsDto> sortedByValue = mainReadQuotesHelper(args, trades);
-    Collections.sort(sortedByValue, TotalReturnsDto.closingComparator);
+    //Collections.sort(sortedByValue, TotalReturnsDto.closingComparator);
     List<String> stocks = new ArrayList<String>();
     for (TotalReturnsDto trd: sortedByValue) {
        stocks.add(trd.getSymbol());
@@ -88,23 +124,19 @@ return tests;
   //  After refactor, make sure that the tests pass by using these two commands
   //  ./gradlew test --tests PortfolioManagerApplicationTest.readTradesFromJson
   //  ./gradlew test --tests PortfolioManagerApplicationTest.mainReadFile
-  public static List<PortfolioTrade> readTradesFromJson(String filename) throws IOException, URISyntaxException {
+ /*  public static List<PortfolioTrade> readTradesFromJson(String filename) throws IOException, URISyntaxException {
      return Collections.emptyList();
-  }
+  }*/
 
 
   // TODO:
   //  Build the Url using given parameters and use this function in your code to cann the API.
-  public static String prepareUrl(PortfolioTrade trade, LocalDate endDate, String token) {
+ /*  public static String prepareUrl(PortfolioTrade trade, LocalDate endDate, String token) {
      return Collections.emptyList();
-  }
+  }*/
 
-  public static final Comparator<TotalReturnsDto> closingComparator = new
-  Comparator<TotalReturnsDto>() {
-public int compare(TotalReturnsDto t1 , TotalReturnsDto t2){
-    return (int) (t1.getClosingPrice().compareTo(t2.getClosingPrice()));
-    }
-  };
+  
+  
 
 
 

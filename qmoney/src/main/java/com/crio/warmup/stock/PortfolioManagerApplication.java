@@ -181,7 +181,7 @@ public static AnnualizedReturn getAnnualizedReturn(PortfolioTrade trade, LocalDa
          RestTemplate restTemplate= new RestTemplate();
          // api returns a list of results for each day's closing details
          TiingoCandle[] stocksStartToEndDate = restTemplate.getForObject(url, TiingoCandle[].class);
-         // Extract stocks for startDate  endDate     
+         // Extract stocks for startDate  endDate 
          if (stocksStartToEndDate != null) {
             TiingoCandle stockStartDate = stocksStartToEndDate[0];
             TiingoCandle stockLatest = stocksStartToEndDate[stocksStartToEndDate.length - 1];

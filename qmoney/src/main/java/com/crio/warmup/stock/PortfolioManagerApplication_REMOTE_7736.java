@@ -103,7 +103,7 @@ public static AnnualizedReturn getAnnualizedReturn(PortfolioTrade trade, LocalDa
 
 
 
-public static List<AnnualizedReturn> mainCalculateSingleReturn(String[] args) throws IOException, URISyntaxException,DateTimeParseException { 
+public static List<AnnualizedReturn> mainCalculateSingleReturn(String[] args) throws IOException, URISyntaxException { 
    //return Collections.emptyList();
    List<AnnualizedReturn> annualizedReturns = new ArrayList<>();
    LocalDate endLocalDate = LocalDate.parse(args[1]);
@@ -114,7 +114,7 @@ public static List<AnnualizedReturn> mainCalculateSingleReturn(String[] args) th
       annualizedReturns.add(getAnnualizedReturn(tradeJsons[i], endLocalDate));
  } 
  // Sort in Descending order
-   Comparator<AnnualizedReturn> SortByAnnReturn =Comparator.comparing (AnnualizedReturn :: getAnnualizedReturn) .reversed();
+   Comparator<AnnualizedReturn> SortByAnnReturn =Comparator.comparing(AnnualizedReturn :: getAnnualizedReturn) .reversed();
    Collections.sort(annualizedReturns, SortByAnnReturn);
    return annualizedReturns;
 

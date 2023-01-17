@@ -170,7 +170,7 @@ static Double getOpeningPriceOnStartDate(List<Candle> candles) {
 
 public static Double getClosingPriceOnEndDate(List<Candle> candles) {
   //return 0.0;
-  Candle last = candles.get(candles.length-1);
+  Candle last = candles.get(candles.size()-1);
   return last.getClose();
 }
 

@@ -157,6 +157,10 @@ return tests;
 
   public static final String TOKEN = "8c54f71a4595146aec4c5cd4e8da04c4e6b6b022";
 
+  public static String getToken(){
+    return Token;
+  }
+
 
 static Double getOpeningPriceOnStartDate(List<Candle> candles) {
    return 0.0;

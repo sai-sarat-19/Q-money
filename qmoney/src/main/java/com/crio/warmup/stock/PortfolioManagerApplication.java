@@ -178,16 +178,16 @@ public static List<Candle> fetchCandles(PortfolioTrade trade, LocalDate endDate,
    //return Collections.emptyList();
    String ticker = trade.getSymbol();
    LocalDate startLocalDate = trade.getPurchaseDate();
-      if (startLocalDate.compareTo(endLocalDate) >= 0) { 
+      if (startLocalDate.compareTo(endDate) >= 0) { 
          throw new RuntimeException();} 
          // create a url object for the api call
          // TOKEN is a class variable 
-         String url = String.format("https://api.tiingo.com/tiingo/daily/%s/prices?" + "startDate-Xs&endDate-Xs&token=%s", ticker, startLocalDate.toString(), endLocalDate.toString(), TOKEN);
+         String url = String.format("https://api.tiingo.com/tiingo/daily/%s/prices?" + "startDate-Xs&endDate-Xs&token=%s", ticker, startLocalDate.toString(), endDate.toString(), TOKEN);
          RestTemplate restTemplate= new RestTemplate();
          // api returns a list of results for each day's closing details
          Candle[] stocksStartToEndDate = restTemplate.getForObject(url, Candle[].class);
          // Extract stocks for startDate  endDate 
-         return stocksStartToEndDate;
+         return Arrays.asList(stocksStartToEndDate);
 
   }
 

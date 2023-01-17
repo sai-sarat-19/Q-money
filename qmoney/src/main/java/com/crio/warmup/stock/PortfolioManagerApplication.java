@@ -200,7 +200,7 @@ public static AnnualizedReturn getAnnualizedReturn(PortfolioTrade trade, LocalDa
 
 
 
-public static List<AnnualizedReturn> mainCalculateSingleReturn(String[] args) throws IOException, URISyntaxException, DateTimeParseException { 
+public static List<AnnualizedReturn> mainCalculateSingleReturn(String[] args) throws IOException, URISyntaxException { 
    //return Collections.emptyList();
    List<AnnualizedReturn> annualizedReturns = new ArrayList<>();
    LocalDate endLocalDate = LocalDate.parse(args[1]);

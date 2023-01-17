@@ -68,25 +68,12 @@ public class PortfolioManagerApplication_REMOTE_7736 {
 static Double getOpeningPriceOnStartDate(List<Candle> candles) {
    //return 0.0;
      
-         if (candles.length != 0) {
-            Candle stockStartDate = candles[0];
-            Double buyPrice= stockStartDate.getOpen();
-            return buyPrice;
-         }
-         else{
-            return Double.NaN;
-         }
+       Candle first = candles.get(0);
+       return first.getopen();
 }
 
 public static Double getClosingPriceOnEndDate(List<Candle> candles) {
-   if (candles.length != 0) {
-      Candle stockLatest = stocksStartToEndDate[candles.length - 1];
-      Double sellPrice = stockLatest.getClose();
-      return sellPrice;
-   }
-   else{
-      return Double.NaN;
-   }
+   return 0.0;
 }
 
 public static List<Candle> fetchCandles(PortfolioTrade trade, LocalDate endDate, String token) { 

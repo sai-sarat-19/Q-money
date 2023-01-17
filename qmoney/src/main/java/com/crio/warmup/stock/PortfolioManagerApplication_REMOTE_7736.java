@@ -62,7 +62,7 @@ public class PortfolioManagerApplication_REMOTE_7736 {
    objectMapper.registerModule(new JavaTimeModule());
    return objectMapper;
  }
- public static final String TOKEN = "126e087ce5700d1db8c9a09e6d530a170cf43ee6";
+ public static final String TOKEN = "8c54f71a4595146aec4c5cd4e8da04c4e6b6b022";
 
 
 static Double getOpeningPriceOnStartDate(List<Candle> candles) {

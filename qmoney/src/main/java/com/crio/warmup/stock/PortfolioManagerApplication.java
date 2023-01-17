@@ -164,7 +164,8 @@ return tests;
 
 static Double getOpeningPriceOnStartDate(List<Candle> candles) {
    //return 0.0;
-  
+   Candle first = candles.get(0);
+   return first.getOpen();
 }
 
 public static Double getClosingPriceOnEndDate(List<Candle> candles) {

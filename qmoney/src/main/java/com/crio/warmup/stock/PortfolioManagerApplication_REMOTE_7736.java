@@ -12,6 +12,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -61,7 +62,8 @@ public class PortfolioManagerApplication_REMOTE_7736 {
    objectMapper.registerModule(new JavaTimeModule());
    return objectMapper;
  }
-  public static final String TOKEN = "126e087ce5700d1db8c9a09e6d530a170cf43ee6";
+ public static final String TOKEN = "8c54f71a4595146aec4c5cd4e8da04c4e6b6b022";
+
 
 static Double getOpeningPriceOnStartDate(List<Candle> candles) {
    return 0.0;}
@@ -97,7 +99,7 @@ public static AnnualizedReturn getAnnualizedReturn(PortfolioTrade trade, LocalDa
 
 
 
-public static List<AnnualizedReturn> mainCalculateSingleReturn(String[] args) throws IOException, URISyntaxException { 
+public static List<AnnualizedReturn> mainCalculateSingleReturn(String[] args) throws IOException, URISyntaxException,DateTimeParseException { 
    //return Collections.emptyList();    
    List<AnnualizedReturn> annualizedReturns = new ArrayList<>();
    LocalDate endLocalDate = LocalDate.parse(args[1]);
@@ -121,11 +123,11 @@ public static AnnualizedReturn calculateAnnualizedReturns(LocalDate endDate,Port
    String symbol = trade.getSymbol();
    LocalDate purchaseDate = trade.getPurchaseDate();
 // calculate years
-    Double numYears = (double) ChronoUnit.DAYS. between (purchaseDate, endDate) / 365;
+    Double numYears = (double) ChronoUnit.DAYS.between(purchaseDate, endDate) / 365;
 // calculate annualized returns using formula     
-   Double annualizedReturns = Math.pow((1+absReturn), (1 / numYears)) - 1;
+   Double annualizedReturns = Math.pow((1+absReturn),(1/numYears)) - 1;
 // return AnnualizedReturn object I
- return new AnnualizedReturn(symbol, annualizedReturns, absReturn);
+    return new AnnualizedReturn(symbol, annualizedReturns, absReturn);
 
 }
 

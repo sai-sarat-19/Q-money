@@ -155,7 +155,73 @@ return tests;
     return url;
   }
 
-  
+  public static final String TOKEN = "8c54f71a4595146aec4c5cd4e8da04c4e6b6b022";
+
+  static Double getOpeningPriceOnStartDate(List<Candle> candles) {
+    return 0.0;}
+ 
+ public static Double getClosingPriceOnEndDate(List<Candle> candles) {
+    return 0.0;}
+ 
+ public static List<Candle> fetchCandles(PortfolioTrade trade, LocalDate endDate, String token) { 
+    return Collections.emptyList();}
+ 
+ public static AnnualizedReturn getAnnualizedReturn(PortfolioTrade trade, LocalDate endLocalDate) {
+       String ticker = trade.getSymbol();
+       LocalDate startLocalDate = trade.getPurchaseDate();
+       if (startLocalDate.compareTo(endLocalDate) >= 0) { 
+          throw new RuntimeException();} 
+          // create a url object for the api call  // TOKEN is a class variable    
+          String url = String.format("https://api.tiingo.com/tiingo/daily/%s/prices?" + "startDate-Xs&endDate-Xs&token=%s", ticker, startLocalDate.toString(), endLocalDate.toString(), TOKEN);
+          RestTemplate restTemplate= new RestTemplate();
+          // api returns a list of results for each day's closing details
+          TiingoCandle[] stocksStartToEndDate = restTemplate.getForObject(url, TiingoCandle[].class);
+          // Extract stocks for startDate & endDate     
+          if (stocksStartToEndDate != null) {
+             TiingoCandle stockStartDate = stocksStartToEndDate[0];
+             TiingoCandle stockLatest = stocksStartToEndDate[stocksStartToEndDate.length - 1];
+             Double buyPrice= stockStartDate.getOpen();
+             Double sellPrice = stockLatest.getClose();
+             AnnualizedReturn annualizedReturn =calculateAnnualizedReturns (endLocalDate, trade, buyPrice, sellPrice);
+             return annualizedReturn; }  
+             else {
+                return new AnnualizedReturn(ticker, Double.NaN, Double.NaN); 
+             }
+ }
+ 
+ 
+ 
+ public static List<AnnualizedReturn> mainCalculateSingleReturn(String[] args) throws IOException, URISyntaxException { 
+    //return Collections.emptyList();    
+    List<AnnualizedReturn> annualizedReturns = new ArrayList<>();
+    LocalDate endLocalDate = LocalDate.parse(args[1]);
+    File trades = resolveFileFromResources (args[0]); 
+    ObjectMapper objectMapper = getObjectMapper();
+    PortfolioTrade[] tradeJsons = objectMapper.readValue(trades, PortfolioTrade[].class); 
+    for (int i = 0; i < tradeJsons.length; i++) { 
+       annualizedReturns.add(getAnnualizedReturn(tradeJsons[i], endLocalDate));
+  } // Sort in Descending order
+    Comparator<AnnualizedReturn> SortByAnnReturn =Comparator.comparing (AnnualizedReturn::getAnnualizedReturn) .reversed();
+    Collections.sort(annualizedReturns, SortByAnnReturn);
+    return annualizedReturns;
+ 
+ }
+ 
+ // TODO: CRIO_TASK_MODULE_CALCULATIONS //  Return the populated list of AnnualizedReturn for all stocks. //  Annualized returns should be calculated in two steps: //   1. Calculate totalReturn = (sell_value - buy_value) / buy_value. //      1.1 Store the same as totalReturns //   2. Calculate extrapolated annualized returns by scaling the same in years span. //      The formula is: //      annualized_returns = (1 + total_returns) ^ (1 / total_num_years) - 1 //      2.1 Store the same as annualized_returns //  Test the same using below specified command. The build should be successful. //     ./gradlew test --tests PortfolioManagerApplicationTest.testCalculateAnnualizedReturn
+ public static AnnualizedReturn calculateAnnualizedReturns(LocalDate endDate,PortfolioTrade trade, Double buyPrice, Double sellPrice) {
+    //return new AnnualizedReturn("", 0.0, 0.0);      
+    // calculate total returns     
+    Double absReturn = (sellPrice - buyPrice) / buyPrice;
+    String symbol = trade.getSymbol();
+    LocalDate purchaseDate = trade.getPurchaseDate();
+ // calculate years
+     Double numYears = (double) ChronoUnit.DAYS. between (purchaseDate, endDate) / 365;
+ // calculate annualized returns using formula     
+    Double annualizedReturns = Math.pow((1+absReturn), (1 / numYears)) - 1;
+ // return AnnualizedReturn object I
+  return new AnnualizedReturn(symbol, annualizedReturns, absReturn);
+ 
+ }
   
 
 
@@ -170,7 +236,8 @@ return tests;
     ThreadContext.put("runId", UUID.randomUUID().toString());
 
 
-    printJsonObject(mainReadQuotes(args));
+    //printJsonObject(mainReadQuotes(args));
+    printJsonObject(mainCalculateSingleReturn(args));
 
 
   }

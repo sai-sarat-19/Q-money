@@ -169,7 +169,9 @@ static Double getOpeningPriceOnStartDate(List<Candle> candles) {
 }
 
 public static Double getClosingPriceOnEndDate(List<Candle> candles) {
-  return 0.0;
+  //return 0.0;
+  Candle last = candles.get(candles.length-1);
+  return last.getClose();
 }
 
 public static List<Candle> fetchCandles(PortfolioTrade trade, LocalDate endDate, String token) { 

@@ -186,10 +186,10 @@ public static List<Candle> fetchCandles(PortfolioTrade trade, LocalDate endDate,
          String url = String.format("https://api.tiingo.com/tiingo/daily/%s/prices?" + "startDate=%s&endDate=%s&token=%s", ticker, startLocalDate.toString(), endDate.toString(), token);
          RestTemplate restTemplate= new RestTemplate();
          // api returns a list of results for each day's closing details
-         Candle[] stocksStartToEndDate = restTemplate.getForObject(url, Candle[].class);
+         TiingoCandle[] stocksStartToEndDate = restTemplate.getForObject(url, TiingoCandle[].class);
          // Extract stocks for startDate  endDate 
          return Arrays.asList(stocksStartToEndDate);
-
+         
   }
 
 public static AnnualizedReturn getAnnualizedReturn(PortfolioTrade trade, LocalDate endLocalDate) {

@@ -62,15 +62,31 @@ public class PortfolioManagerApplication_REMOTE_7736 {
    objectMapper.registerModule(new JavaTimeModule());
    return objectMapper;
  }
- public static final String TOKEN = "8c54f71a4595146aec4c5cd4e8da04c4e6b6b022";
+ public static final String TOKEN = "126e087ce5700d1db8c9a09e6d530a170cf43ee6";
 
 
 static Double getOpeningPriceOnStartDate(List<Candle> candles) {
-   return 0.0;
+   //return 0.0;
+     
+         if (candles.length != 0) {
+            Candle stockStartDate = candles[0];
+            Double buyPrice= stockStartDate.getOpen();
+            return buyPrice;
+         }
+         else{
+            return Double.NaN;
+         }
 }
 
 public static Double getClosingPriceOnEndDate(List<Candle> candles) {
-   return 0.0;
+   if (candles.length != 0) {
+      Candle stockLatest = stocksStartToEndDate[candles.length - 1];
+      Double sellPrice = stockLatest.getClose();
+      return sellPrice;
+   }
+   else{
+      return Double.NaN;
+   }
 }
 
 public static List<Candle> fetchCandles(PortfolioTrade trade, LocalDate endDate, String token) { 

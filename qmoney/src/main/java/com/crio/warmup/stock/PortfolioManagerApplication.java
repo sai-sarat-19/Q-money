@@ -155,7 +155,7 @@ return tests;
     return url;
   }
 
-  public static final String TOKEN = "8c54f71a4595146aec4c5cd4e8da04c4e6b6b022";
+  public static final String TOKEN = "126e087ce5700d1db8c9a09e6d530a170cf43ee6";
 
   public static String getToken(){
     return TOKEN;
@@ -163,11 +163,26 @@ return tests;
 
 
 static Double getOpeningPriceOnStartDate(List<Candle> candles) {
-   return 0.0;
+   //return 0.0;
+   if (candles.length != 0) {
+    Candle stockStartDate = candles[0];
+    Double buyPrice= stockStartDate.getOpen();
+    return buyPrice;
+  }
+  else{
+    return Double.NaN;
+  }
 }
 
 public static Double getClosingPriceOnEndDate(List<Candle> candles) {
-   return 0.0;
+  if (candles.length != 0) {
+    Candle stockLatest = stocksStartToEndDate[candles.length - 1];
+    Double sellPrice = stockLatest.getClose();
+    return sellPrice;
+  }
+  else{
+    return Double.NaN;
+  }
 }
 
 public static List<Candle> fetchCandles(PortfolioTrade trade, LocalDate endDate, String token) { 
@@ -178,9 +193,12 @@ public static AnnualizedReturn getAnnualizedReturn(PortfolioTrade trade, LocalDa
       String ticker = trade.getSymbol();
       LocalDate startLocalDate = trade.getPurchaseDate();
       if (startLocalDate.compareTo(endLocalDate) >= 0) { 
-         throw new RuntimeException();} 
+         throw new RuntimeException();
+      }
+
          // create a url object for the api call
          // TOKEN is a class variable 
+      
          String url = String.format("https://api.tiingo.com/tiingo/daily/%s/prices?" + "startDate-Xs&endDate-Xs&token=%s", ticker, startLocalDate.toString(), endLocalDate.toString(), TOKEN);
          RestTemplate restTemplate= new RestTemplate();
          // api returns a list of results for each day's closing details
@@ -200,11 +218,13 @@ public static AnnualizedReturn getAnnualizedReturn(PortfolioTrade trade, LocalDa
 
 
 
-public static List<AnnualizedReturn> mainCalculateSingleReturn(String[] args) throws IOException, URISyntaxException { 
+public static List<AnnualizedReturn> mainCalculateSingleReturn(String[] args)
+ throws IOException, URISyntaxException { 
    //return Collections.emptyList();
    List<AnnualizedReturn> annualizedReturns = new ArrayList<>();
    LocalDate endLocalDate = LocalDate.parse(args[1]);
-   File trades = resolveFileFromResources (args[0]); 
+
+   File trades = resolveFileFromResources (args[0]);    
    ObjectMapper objectMapper = getObjectMapper();
    PortfolioTrade[] tradeJsons = objectMapper.readValue(trades, PortfolioTrade[].class); 
    for (int i = 0; i < tradeJsons.length; i++) { 

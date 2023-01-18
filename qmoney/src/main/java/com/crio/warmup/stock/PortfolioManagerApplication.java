@@ -1,10 +1,11 @@
 
 package com.crio.warmup.stock;
 
-import java.util.*;
-import java.util.ArrayList;
+
 import com.crio.warmup.stock.dto.*;
 import com.crio.warmup.stock.log.UncaughtExceptionHandler;
+import com.crio.warmup.stock.portfolio.PortfolioManager;
+import com.crio.warmup.stock.portfolio.PortfolioManagerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
@@ -13,9 +14,10 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -265,6 +267,21 @@ public static AnnualizedReturn calculateAnnualizedReturns(LocalDate endDate,Port
      return new AnnualizedReturn(symbol, annualizedReturns, absReturn);
 
 }
+
+public static RestTemplate resttemplate =  new RestTemplate();
+public static PortfolioManager portfolioManager =PortfolioManagerFactory.getPortfolioManager(resttemplate);
+
+
+public static List<AnnualizedReturn> mainCalculateReturnsAfterRefactor(String[] args)
+      throws Exception {
+       String file = args[0];
+       LocalDate endDate = LocalDate.parse(args[1]);
+       String contents = file;            
+       ObjectMapper objectMapper = getObjectMapper();
+       PortfolioTrade[] portfolioTrades = objectMapper.readValue(contents,PortfolioTrade[].class);
+
+       return portfolioManager.calculateAnnualizedReturn(Arrays.asList(portfolioTrades), endDate);
+  }
   
 
 
@@ -280,7 +297,8 @@ public static AnnualizedReturn calculateAnnualizedReturns(LocalDate endDate,Port
 
 
     //printJsonObject(mainReadQuotes(args));
-    printJsonObject(mainCalculateSingleReturn(args));
+    //printJsonObject(mainCalculateSingleReturn(args));
+    printJsonObject(mainCalculateReturnsAfterRefactor(args));
 
 
   }

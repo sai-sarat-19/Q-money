@@ -221,10 +221,13 @@ public static AnnualizedReturn getAnnualizedReturn(PortfolioTrade trade, LocalDa
             }
 }
 
+public static RestTemplate resttemplate =  new RestTemplate();
+public static PortfolioManager portfolioManager =PortfolioManagerFactory.getPortfolioManager(resttemplate);
+
 
 
 public static List<AnnualizedReturn> mainCalculateSingleReturn(String[] args)
-   throws IOException, URISyntaxException,DateTimeParseException { 
+   throws IOException, URISyntaxException { 
    //return Collections.emptyList();
    List<AnnualizedReturn> annualizedReturns = new ArrayList<>();
    LocalDate endLocalDate = LocalDate.parse(args[1]);
@@ -267,9 +270,6 @@ public static AnnualizedReturn calculateAnnualizedReturns(LocalDate endDate,Port
      return new AnnualizedReturn(symbol, annualizedReturns, absReturn);
 
 }
-
-public static RestTemplate resttemplate =  new RestTemplate();
-public static PortfolioManager portfolioManager =PortfolioManagerFactory.getPortfolioManager(resttemplate);
 
 
 public static List<AnnualizedReturn> mainCalculateReturnsAfterRefactor(String[] args)

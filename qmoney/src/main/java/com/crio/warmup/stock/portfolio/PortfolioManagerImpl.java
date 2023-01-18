@@ -5,6 +5,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
 import java.util.*;
+
 import com.crio.warmup.stock.dto.AnnualizedReturn;
 import com.crio.warmup.stock.dto.Candle;
 import com.crio.warmup.stock.dto.PortfolioTrade;
@@ -30,10 +31,12 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
 
 
-
+  
   // Caution: Do not delete or modify the constructor, or else your build will break!
   // This is absolutely necessary for backward compatibility
+  RestTemplate restTemplate = new RestTemplate();
   protected PortfolioManagerImpl(RestTemplate restTemplate) {
+    
     this.restTemplate = restTemplate;
   }
 
@@ -77,6 +80,8 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
         // create a url object for the api call 
         String url = buildUri(symbol, from, to);
+        RestTemplate restTemplate = new RestTemplate();
+
         
         // api returns a list of results for each day's stock data 
         TiingoCandle[] stocksStartToEndDate = restTemplate.getForObject(url, TiingoCandle[].class);
@@ -162,10 +167,18 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
 
  
- // @Override
-  public List<AnnualizedReturn> calculateAnnualizedReturns(List<PortfolioTrade> portfolioTrades, LocalDate endDate)  {
+    //@Override
+   /*  public List<AnnualizedReturn> calculateAnnualizedReturns(List<PortfolioTrade> portfolioTrades, LocalDate endDate)  {
     
-    AnnualizedReturn annualizedReturn;
+    
+  }*/
+
+
+    @Override
+    public List<AnnualizedReturn> calculateAnnualizedReturn(List<PortfolioTrade> portfolioTrades,
+        LocalDate endDate) {
+      // TODO Auto-generated method stub
+      AnnualizedReturn annualizedReturn;
     List<AnnualizedReturn> annualizedReturns = new ArrayList<AnnualizedReturn>();
 
     for(int i=0;i<portfolioTrades.size();i++){
@@ -179,6 +192,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
     Comparator<AnnualizedReturn> SortByAnnReturn =Comparator.comparing (AnnualizedReturn :: getAnnualizedReturn) .reversed();
     Collections.sort(annualizedReturns, SortByAnnReturn);
     return annualizedReturns;
-  }
+      //return null;
+    }
 
 }

@@ -17,7 +17,9 @@ public interface PortfolioManager {
   // We will not use file to transfer json data anymore, rather we will try to use java objects.
   // The reason is, this service is going to get exposed as a library in future.
 
-List<AnnualizedReturn> calculateAnnualizedReturn(List<PortfolioTrade> portfolioTrades, LocalDate endDate){
+  
+
+List<AnnualizedReturn> calculateAnnualizedReturn(List<PortfolioTrade> portfolioTrades, LocalDate endDate)
       /*AnnualizedReturn annualizedReturn;
       List<AnnualizedReturn> annualizedReturns = new ArrayList<AnnualizedReturn>();
   
@@ -33,6 +35,7 @@ List<AnnualizedReturn> calculateAnnualizedReturn(List<PortfolioTrade> portfolioT
       Collections.sort(annualizedReturns, SortByAnnReturn);
       return annualizedReturns;*/
   //CHECKSTYLE:ON
-}
+  ;
+
 }
 

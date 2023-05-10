@@ -35,15 +35,16 @@ public class TiingoCandle implements Candle {
   public Double getHigh() {
     return high;
   }
-
-  public void setHigh(Double high) {
-    this.high = high;
-  }
-
   @Override
   public Double getLow() {
     return low;
   }
+  
+  public void setHigh(Double high) {
+    this.high = high;
+  }
+
+ 
 
   public void setLow(Double low) {
     this.low = low;

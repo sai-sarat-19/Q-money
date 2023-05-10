@@ -12,7 +12,6 @@ public class AnnualizedReturn {
     this.annualizedReturn = annualizedReturn;
     this.totalReturns = totalReturns;
   }
-
   public String getSymbol() {
     return symbol;
   }
